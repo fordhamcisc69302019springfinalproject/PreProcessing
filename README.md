@@ -6,9 +6,10 @@ All other rights reserved.
 
 # Documentations  
 ## Overview
-You can complete normalization, imputation and balancing process with this tool.  
+- Train data after pre-processed has been saved into *[census-income.data.precessed.csv](https://github.com/fordhamcisc69302019springfinalproject/PreProcessing/raw/master/census-income.data.precessed.csv)*
+- You can complete normalization, imputation and balancing process with this tool.  
 There are two ways to make use of this tool:  
-1. Directly open *CISC6930_preprocessing.py*, customize parameters and arguements below:  
+1. Directly open *[CISC6930_preprocessing.py](https://github.com/fordhamcisc69302019springfinalproject/PreProcessing/blob/master/CISC6930_preprocessing.py)*, customize parameters and arguements below:  
 ```Python
 if __name__ == "__main__":
 ```  
@@ -16,7 +17,7 @@ After execute all code, you should get the following variables:
 - **train**:  train data, which has been normalized and imputed;
 - **X_train, y_train**:  observations and labels respectly from train data, balanced by SMOTE;
 
-2. Put *CISC6930_preprocessing.py* in the same directory of your code. Then use it as a module.  
+2. Put *[CISC6930_preprocessing.py](https://github.com/fordhamcisc69302019springfinalproject/PreProcessing/blob/master/CISC6930_preprocessing.py)* in the same directory of your code. Then use it as a module.  
 Example:  
 ```Python
 import CISC6930_preprocessing as pp
