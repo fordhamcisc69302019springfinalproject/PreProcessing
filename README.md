@@ -6,7 +6,7 @@ All other rights reserved.
 
 # Documentations  
 ## Overview
-- Train data after pre-processed has been saved into *[census-income.data.precessed.csv](https://github.com/fordhamcisc69302019springfinalproject/PreProcessing/raw/master/census-income.data.precessed.csv)*
+- Train data after pre-processed has been saved into *[census-income.data.precessed.csv](https://github.com/fordhamcisc69302019springfinalproject/PreProcessing/raw/master/census-income.data.precessed.csv)*. Or, you can see furtherly feature-extended version in *[census-income.data.extend.csv](https://github.com/fordhamcisc69302019springfinalproject/PreProcessing/raw/master/census-income.data.extend.csv)* .  
 - You can complete normalization, imputation and balancing process with this tool.  
 There are two ways to make use of this tool:  
 1. Directly open *[CISC6930_preprocessing.py](https://github.com/fordhamcisc69302019springfinalproject/PreProcessing/blob/master/CISC6930_preprocessing.py)*, customize parameters and arguements below:  
