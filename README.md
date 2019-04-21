@@ -6,7 +6,8 @@ All other rights reserved.
 
 # Documentations  
 ## Overview
-You can complete normalization, imputation and balancing process with this tool.  
+- Train data after pre-processed has been saved into *census-income.data.precessed.csv*
+- You can complete normalization, imputation and balancing process with this tool.  
 There are two ways to make use of this tool:  
 1. Directly open *CISC6930_preprocessing.py*, customize parameters and arguements below:  
 ```Python
