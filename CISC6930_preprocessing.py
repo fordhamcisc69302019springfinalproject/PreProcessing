@@ -106,7 +106,7 @@ def preprocess(df):
 if __name__ == "__main__":
     
     # load train data
-    train_path = '/Users/qiangwenxu/Documents/CISC/6930 DATA MINING/group_project/census-income.data.csv'
+    train_path = 'census-income.data.csv'
     columns = ['age','workclass','fnlwgt','education','education_num','marital_status','occupation','relationship','race','sex','capital_gain','capital_loss','hours_per_week','native_country','label']
     train = load_data(train_path, columns)
     
@@ -138,3 +138,22 @@ if __name__ == "__main__":
     # Deal with imbalance through SMOTE
     X_train, y_train = SMOTE().fit_resample(train.drop(['label'], axis=1), train['label'])
     
+    train.to_csv('census-income.data.precessed_'+str(int(time.time()))+'.csv')
+    
+    ########
+    
+    train_dummies = pd.get_dummies(train, columns = ['workclass',
+                                                     'education',
+                                                     'marital_status',
+                                                     'occupation',
+                                                     'relationship',
+                                                     'race',
+                                                     'sex',
+                                                     'native_country'])
+    
+    adjust_columns = list(train_dummies.columns)
+    adjust_columns.remove('label')
+    adjust_columns.append('label')
+    
+    train_dummies = train_dummies[adjust_columns]
+    train_dummies.to_csv('census-income.data.extend_'+str(int(time.time()))+'.csv')
