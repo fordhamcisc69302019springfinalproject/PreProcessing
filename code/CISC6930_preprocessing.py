@@ -105,7 +105,7 @@ def consistent_label(pd_dataframe):
 # Quick way to complete preprocess
 def preprocess(df):
     df_pp = df
-    df_pp = min_max_normalize(df_pp, ['capital_gain', 'capital_loss'])
+    df_pp = min_max_normalize(df_pp, ['capital_gain', 'capital_loss', 'fnlwgt'])
     df_pp = encoder_normalize(df_pp, ['workclass',
                                       'education',
                                       'marital_status',
