@@ -9,6 +9,8 @@ from scipy.stats import zscore
 from sklearn import preprocessing
 from sklearn.ensemble import RandomForestClassifier
 from imblearn.over_sampling import SMOTE
+import numpy as np
+import time
 
 
 # Import dataset and set column names
@@ -80,6 +82,13 @@ def rf_imputation(df, col):
     return df_imp
 
 
+def feature_extend(df, feature_name):
+    df_etd = df
+    df_etd = pd.get_dummies(df_etd, columns = [feature_name])
+    get_unique(train)[feature_name]
+    
+    
+
 # Consist label classes btwm train and test data
 def consistent_label(pd_dataframe):
     pd_dataframe["label"] = pd_dataframe["label"].replace([" >50K.", " <=50K."], [" >50K", " <=50K"])
@@ -113,16 +122,19 @@ if __name__ == "__main__":
     
     # Put all unique value into a dictionary for further querying
     unique = get_unique(train)
+    print(unique['workclass'])
     unique_count = get_distribution(train)
+    print(unique_count['workclass'][' Local-gov'])
     
     
     # Normalize train data by min_max method
     train = min_max_normalize(train, ['capital_gain', 
                                       'capital_loss'])
     
+    
     # Normalize train data by encoder method
-    train = encoder_normalize(train, ['workclass',
-                                      'education',
+    train = encoder_normalize(train, ['workclass', 
+                                      'education', 
                                       'marital_status',
                                       'occupation',
                                       'relationship',
@@ -130,30 +142,15 @@ if __name__ == "__main__":
                                       'sex',
                                       'native_country'])
     
+    
     # Deal with missing value (around 7.37%) through random forest
     imputate_columns = ['workclass', 'occupation', 'native_country']
     train = rf_imputation(train, imputate_columns)
-    
-    
+
     # Deal with imbalance through SMOTE
     X_train, y_train = SMOTE().fit_resample(train.drop(['label'], axis=1), train['label'])
+    y_train = y_train.reshape(-1,1)
+    train = pd.DataFrame(np.hstack((X_train,y_train)))
+    train.columns = columns
     
     train.to_csv('census-income.data.precessed_'+str(int(time.time()))+'.csv')
-    
-    ########
-    
-    train_dummies = pd.get_dummies(train, columns = ['workclass',
-                                                     'education',
-                                                     'marital_status',
-                                                     'occupation',
-                                                     'relationship',
-                                                     'race',
-                                                     'sex',
-                                                     'native_country'])
-    
-    adjust_columns = list(train_dummies.columns)
-    adjust_columns.remove('label')
-    adjust_columns.append('label')
-    
-    train_dummies = train_dummies[adjust_columns]
-    train_dummies.to_csv('census-income.data.extend_'+str(int(time.time()))+'.csv')
