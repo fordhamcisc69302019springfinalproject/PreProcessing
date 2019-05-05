@@ -89,10 +89,11 @@ def feature_extend(df, feature_name):
     
 
 def balance(df):
+    c = df.columns
     X, y = SMOTE().fit_resample(df.drop(['label'], axis=1), df['label'])
     y = y.reshape(-1,1)
     df_bl = pd.DataFrame(np.hstack((X,y)))
-    df_bl.columns = columns
+    df_bl.columns = c
     return df_bl
 
 # Consist label classes btwm train and test data
@@ -126,10 +127,10 @@ def get_dummy(df, dropfnlwgt=False):
     if dropfnlwgt == True:
         df_dm = df_dm.drop(['fnlwgt'], axis=1)
     # Extend features
-    df_dm = pd.get_dummies(df_dm, columns = ['workclass',
-                                             'marital_status',
-                                             'race',
-                                             'native_country'])
+    dummy_list = ['workclass','marital_status','race','native_country']
+    for i in dummy_list:
+        df_dm[i] = df_dm[i].astype('int')
+    df_dm = pd.get_dummies(df_dm, columns = dummy_list)
     adjust_columns = list(df_dm.columns)
     adjust_columns.remove('label')
     adjust_columns.append('label')
