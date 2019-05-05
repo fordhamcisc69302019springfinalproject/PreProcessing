@@ -87,7 +87,13 @@ def feature_extend(df, feature_name):
     df_etd = pd.get_dummies(df_etd, columns = [feature_name])
     get_unique(train)[feature_name]
     
-    
+
+def balance(df):
+    X, y = SMOTE().fit_resample(df.drop(['label'], axis=1), df['label'])
+    y = y.reshape(-1,1)
+    df_bl = pd.DataFrame(np.hstack((X,y)))
+    df_bl.columns = columns
+    return df_bl
 
 # Consist label classes btwm train and test data
 def consistent_label(pd_dataframe):
@@ -109,7 +115,26 @@ def preprocess(df):
                                       'native_country'])
     imp_col = ['workclass', 'occupation', 'native_country']
     df_pp = rf_imputation(df_pp, imp_col)
-    return df_pp
+    df_bl = balance(df_pp)
+    return df_bl
+
+
+def get_dummy(df, dropfnlwgt=False):
+    df_pp = preprocess(df)
+    # Feature selection
+    df_dm = df_pp.drop(['education','occupation','relationship','sex'], axis=1)
+    if dropfnlwgt == True:
+        df_dm = df_dm.drop(['fnlwgt'], axis=1)
+    # Extend features
+    df_dm = pd.get_dummies(df_dm, columns = ['workclass',
+                                             'marital_status',
+                                             'race',
+                                             'native_country'])
+    adjust_columns = list(df_dm.columns)
+    adjust_columns.remove('label')
+    adjust_columns.append('label')
+    df_dm = df_dm[adjust_columns]
+    return df_dm
 
 
 if __name__ == "__main__":
@@ -153,4 +178,3 @@ if __name__ == "__main__":
     train = pd.DataFrame(np.hstack((X_train,y_train)))
     train.columns = columns
     
-    train.to_csv('census-income.data.precessed_'+str(int(time.time()))+'.csv')
