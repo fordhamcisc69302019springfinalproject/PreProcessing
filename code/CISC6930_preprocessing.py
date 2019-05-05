@@ -10,13 +10,13 @@ from sklearn import preprocessing
 from sklearn.ensemble import RandomForestClassifier
 from imblearn.over_sampling import SMOTE
 import numpy as np
-import time
 
 
 # Import dataset and set column names
 def load_data(path, names):
     df = pd.DataFrame(pd.read_csv(path, header = None))
     df.columns = names
+    df = consistent_label(df)
     return df
 
 
@@ -104,7 +104,7 @@ def consistent_label(pd_dataframe):
 
 # Quick way to complete preprocess
 def preprocess(df):
-    df_pp = df
+    df_pp = df[(True^df['native_country'].isin([' Holand-Netherlands']))]
     df_pp = min_max_normalize(df_pp, ['capital_gain', 'capital_loss', 'fnlwgt'])
     df_pp = encoder_normalize(df_pp, ['workclass',
                                       'education',
