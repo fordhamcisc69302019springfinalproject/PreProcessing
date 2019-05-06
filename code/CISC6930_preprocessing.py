@@ -103,7 +103,7 @@ def consistent_label(pd_dataframe):
 
 
 # Quick way to complete preprocess
-def preprocess(df):
+def preprocess(df, ifSMOTE=True):
     df_pp = df[(True^df['native_country'].isin([' Holand-Netherlands']))]
     df_pp = min_max_normalize(df_pp, ['capital_gain', 'capital_loss', 'fnlwgt'])
     df_pp = encoder_normalize(df_pp, ['workclass',
@@ -116,7 +116,8 @@ def preprocess(df):
                                       'native_country'])
     imp_col = ['workclass', 'occupation', 'native_country']
     df_pp = rf_imputation(df_pp, imp_col)
-    df_bl = balance(df_pp)
+    if ifSMOTE == True:
+        df_bl = balance(df_pp)
     return df_bl
 
 
